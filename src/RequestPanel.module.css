@@ -1,0 +1,841 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  font-family: 'Inter Variable', sans-serif;
+  font-size: 12px;
+}
+
+.tabsBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  height: 44px;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 16px 0 0;
+  z-index: 2;
+  margin-bottom: 16px; /* Reduced space below the tab bar by 2px */
+}
+.tabsBarActiveLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: transparent;
+  z-index: 3;
+}
+.tabsBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  padding-left: 8px;
+  background: #fff;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  box-shadow: 0 0 0 0 #fff;
+  position: relative;
+  min-width: 180px;
+  border-bottom: none;
+  height: 44px;
+  margin-bottom: -1px;
+  z-index: 3;
+}
+.tabsBarLeft::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+  border-radius: 2px 2px 0 0;
+  z-index: 4;
+}
+.methodGet {
+  color: #22c55e;
+  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.tabTitle {
+  color: #18181b;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 2px;
+}
+.tabsBarCenter {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tabAdd {
+  background: none;
+  border: none;
+  color: #a1a1aa;
+  cursor: pointer;
+  border-radius: 6px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  margin-left: 0;
+  box-shadow: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  z-index: 2;
+}
+.tabAdd svg {
+  width: 29px;
+  height: 29px;
+  stroke: #18181b;
+}
+.tabAdd:hover {
+  background: #f3f4f6;
+}
+.tabsBarRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  height: 100%;
+}
+.envBtn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #18181b;
+  font-size: 13px;
+  font-weight: 500;
+  gap: 6px;
+  cursor: pointer;
+  padding: 0 8px;
+  height: 32px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.envBtn:hover {
+  background: #f3f4f6;
+}
+.envIcon {
+  display: flex;
+  align-items: center;
+  margin-right: 2px;
+}
+.envText {
+  color: #18181b;
+  font-size: 13px;
+  font-weight: 500;
+}
+.envChevron {
+  color: #a1a1aa;
+}
+.eyeBtn {
+  background: none;
+  border: none;
+  color: #a1a1aa;
+  margin-left: 2px;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  width: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.eyeBtn:hover {
+  background: #f3f4f6;
+}
+
+.requestBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 16px 16px 0 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.methodBtn {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #18181b;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 6px;
+  padding: 0 14px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.urlInput {
+  flex: 1 1 0;
+  min-width: 120px;
+  background: #f6f7f9;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: #18181b;
+  outline: none;
+  margin: 0 4px;
+}
+.sendBtn {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 0 36px 0 18px;
+  height: 25px;
+  font-size: 13px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+  margin-right: 0;
+}
+.sendBtn:hover {
+  background: #4f46e5;
+}
+.saveBtn {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  border-radius: 3px;
+  padding: 0 14px;
+  height: 25px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  margin-left: 0;
+}
+.saveBtn span,
+.saveBtn svg {
+  color: #6b7280;
+}
+.envSelector {
+  display: flex;
+  align-items: center;
+  background: #f6f7f9;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0 10px;
+  height: 32px;
+  color: #18181b;
+  font-size: 13px;
+  font-weight: 500;
+  margin-left: 4px;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.requestTabs {
+  display: flex;
+  align-items: flex-end;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding-left: 0;
+  height: 38px;
+  gap: 0;
+}
+.requestTab, .requestTabActive {
+  padding: 0 18px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+  background: none;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s, border-bottom 0.15s;
+}
+.requestTabActive {
+  /* Keep the underline and background, but don't override the gray color */
+  font-weight: 700;
+  border-bottom: 3px solid #6366f1 !important;
+  background: none;
+  color: #18181b;
+  position: relative;
+}
+
+.requestTabActive::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #6366f1;
+  border-radius: 0;
+}
+.requestTab:hover, .requestTabActive:hover {
+  color: #18181b;
+}
+
+.queryParamsTable {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: none;
+}
+.queryParamsHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 16px 0 16px;
+  margin: 0;
+}
+.queryParamsTitle {
+  color: #a1a1aa;
+  font-size: 13px;
+  font-weight: 600;
+}
+.queryParamsIcons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.qpIcon {
+  color: #a1a1aa;
+  cursor: pointer;
+  transition: color 0.15s;
+  font-size: 18px;
+}
+.qpIcon:hover {
+  color: #6366f1;
+}
+.queryParamsColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 60px;
+  color: #d1d5db;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0 16px;
+  height: 32px;
+  align-items: center;
+}
+.qpCol {
+  color: #d1d5db;
+  font-size: 13px;
+  font-weight: 500;
+}
+.qpColIcons {
+  text-align: right;
+}
+.queryParamsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 60px;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 16px;
+  border-bottom: none;
+}
+.qpCell {
+  color: #18181b;
+  font-size: 13px;
+  font-weight: 400;
+}
+.qpCellIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.shortcutsFooter {
+  margin-top: auto;
+  padding: 24px 0 8px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #a1a1aa;
+  font-size: 12px;
+}
+.shortcutRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #a1a1aa;
+}
+.shortcutRow kbd {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-size: 11px;
+  font-family: inherit;
+  color: #52525b;
+}
+
+.requestBarRow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #fff;
+  padding: 0;
+  border-bottom: none;
+  margin-top: 0 !important;
+  margin-bottom: 14px;
+  z-index: 1;
+}
+.methodDropdown {
+  display: flex;
+  align-items: center;
+  background: #f6f7f9;
+  border: none;
+  outline: none;
+  border-radius: 6px 0 0 6px;
+  height: 36px;
+  padding: 0 18px 0 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #22c55e;
+  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', monospace;
+  cursor: pointer;
+  margin-left: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.methodDropdown:focus,
+.methodDropdown:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.methodDropdownArrow {
+  color: #a1a1aa;
+  margin-left: 18px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+.urlInput {
+  flex: 1 1 0;
+  min-width: 120px;
+  background: #f6f7f9;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  border-left: 1px solid #e5e7eb;
+  border-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #18181b;
+  outline: none;
+}
+.sendBtn {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 0 28px;
+  height: 36px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  margin-left: 0;
+  transition: background 0.15s;
+  box-shadow: none;
+}
+.sendBtn:hover {
+  background: #4f46e5;
+}
+.saveBtn {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  border-radius: 3px;
+  padding: 0 18px;
+  height: 36px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  margin-left: 8px;
+  box-shadow: none;
+}
+.saveIcon {
+  display: flex;
+  align-items: center;
+  margin-right: 4px;
+}
+.saveBtn svg {
+  color: #374151;
+  stroke: #374151;
+}
+
+.unsavedDot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6b7280;
+  margin-left: 18px;
+  margin-right: 6px;
+  vertical-align: middle;
+} 
+
+.queryParamsOuterBox {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin: 0;
+  box-shadow: none;
+  padding: 0;
+  overflow: hidden;
+}
+.queryParamsDivider {
+  width: 100%;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 0;
+}
+.queryParamsTableRow {
+  display: grid;
+  grid-template-columns: 24px 1.2fr 1.2fr 2fr 36px 36px;
+  align-items: center;
+  min-height: 36px;
+  border-bottom: 1px solid #f3f4f6;
+  padding: 0 16px;
+  font-size: 13px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.queryParamsTableRow > div:first-child {
+  width: 24px;
+  min-width: 24px;
+  max-width: 24px;
+  background: #fff;
+}
+.queryParamsTableRow:last-child {
+  border-bottom: none;
+}
+.qpColKey, .qpColValue, .qpColDesc {
+  color: #d1d5db;
+  font-weight: 500;
+  background: none;
+  border: none;
+  padding: 8px 0;
+}
+.qpColIcon {
+  text-align: center;
+  color: #d1d5db;
+  background: none;
+  border: none;
+  padding: 8px 0;
+}
+.qpCell {
+  background: none;
+  border: none;
+  padding: 8px 0;
+}
+.qpCellIcon {
+  text-align: center;
+  background: none;
+  border: none;
+  padding: 8px 0;
+  font-size: 18px;
+} 
+
+.queryParamsRowExact {
+  display: grid;
+  grid-template-columns: 32px 1.2fr 1.2fr 2fr 40px 40px;
+  align-items: center;
+  min-height: 38px;
+  border-bottom: none;
+  padding: 0 16px;
+  font-size: 13px;
+  background: #fff;
+}
+.qpExactCellEmpty {
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  height: 100%;
+}
+.qpExactCellKey {
+  color: #a1a1aa;
+  font-weight: 500;
+  text-align: left;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  padding: 0 0 0 8px;
+}
+.qpExactCellValue {
+  color: #a1a1aa;
+  font-weight: 500;
+  text-align: left;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  padding: 0 0 0 8px;
+}
+.qpExactCellDesc {
+  color: #a1a1aa;
+  font-weight: 500;
+  text-align: left;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  padding: 0 0 0 8px;
+}
+.qpExactCellIcon {
+  background: #fff;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border-right: 1px solid #e5e7eb;
+  height: 100%;
+}
+.qpExactCellIcon:last-child {
+  border-right: none;
+} 
+
+.resizer {
+  height: 10px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  cursor: row-resize;
+  background: transparent;
+  border-radius: 0 0 2px 2px;
+  transition: background 0.2s;
+}
+.resizer::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4px;
+  height: 1px;
+  background: #e5e7eb;
+  border-radius: 1px;
+  pointer-events: none;
+}
+.resizerActive::after {
+  background: #6366f1;
+}
+.queryParamsWhiteBox {
+  background: #fff;
+  border-radius: 0px;
+  border: 1px solid #e5e7eb;
+  border-top: 2px solid #e5e7eb;
+  margin: 0 0 0 0;
+  min-height: 60px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  width: 100%;
+  padding: 24px 24px;
+  box-sizing: border-box;
+  position: relative;
+} 
+
+.tabsBarRightBox {
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  border-radius: 6px;
+  margin-left: auto;
+  height: 36px;
+  box-shadow: none;
+  padding: 0 8px;
+  gap: 0;
+}
+.envBox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px 0 10px;
+  height: 32px;
+  background: none;
+  font-size: 13px;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 6px 0 0 6px;
+  position: relative;
+}
+.envChevron {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.envText {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 500;
+}
+.tabsBarDivider {
+  width: 1px;
+  height: 24px;
+  background: #f3f4f6;
+  margin: 0 2px;
+}
+.eyeBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 40px;
+  border-radius: 0 6px 6px 0;
+  background: none;
+  cursor: pointer;
+}
+.eyeBox svg {
+  display: block;
+  margin: 0 auto;
+  color: #6b7280;
+}
+.eyeBox:hover svg {
+  stroke: #18181b;
+} 
+
+.envBox:hover .envText {
+  color: #18181b;
+}
+.envBox:hover svg {
+  stroke: #18181b;
+}
+.envBox:hover .envChevron {
+  color: #18181b;
+} 
+
+.requestBarActions {
+  display: flex;
+  align-items: center;
+  gap: 0 !important;
+  margin-left: auto;
+  margin-right: 24px;
+} 
+
+.saveChevron {
+  display: flex;
+  align-items: center;
+  margin-left: 6px;
+} 
+.saveIcon svg,
+.saveChevron svg {
+  stroke: #6b7280;
+} 
+.saveText {
+  color: #6b7280 !important;
+  font-weight: 700;
+} 
+.sendChevron {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+} 
+.sendBtn,
+.sendBtn span {
+  font-weight: 400 !important;
+} 
+.sendBtn, .saveBtn {
+  height: 31px !important;
+  min-height: 31px !important;
+  max-height: 31px !important;
+  line-height: 31px !important;
+} 
+
+.requestBarInputGroup {
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  border-radius: 3px;
+  padding: 0 0 0 0;
+  height: 32px;
+  flex: 1 1 0;
+  margin-left: 12px;
+  margin-right: 8px;
+}
+.methodDropdown, .urlInput {
+  height: 32px;
+}
+.methodDropdown {
+  background: none;
+  border: none;
+  outline: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 3px 0 0 3px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.urlInput {
+  background: none;
+  border: none;
+  outline: none;
+  height: 100%;
+  flex: 1 1 0;
+  padding: 0 12px;
+  font-size: 13px;
+  color: #18181b;
+  border-radius: 0 3px 3px 0;
+} 
+
+/* Update all border colors to lightest gray and make all borders as thin as possible */
+.panel,
+.tabsBar,
+.tabsBarLeft,
+.tabAdd,
+.tabsBarRight,
+.envBtn,
+.eyeBtn,
+.requestBar,
+.methodBtn,
+.urlInput,
+.sendBtn,
+.saveBtn,
+.envSelector,
+.requestTabs,
+.requestTab, .requestTabActive,
+.queryParamsTable,
+.queryParamsHeaderRow,
+.qpExactCellDesc,
+.qpExactCellIcon,
+.queryParamsWhiteBox,
+.tabsBarDivider,
+.resizer,
+.resizerActive {
+  border-color: #f3f4f6 !important;
+  border-width: 1px !important;
+} 
