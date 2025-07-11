@@ -144,69 +144,43 @@ export default function RightPanel({ width, setWidth, dragging, setDragging }) {
           <span style={{ color: '#b0b0b0', fontSize: 13, margin: '0 2px' }}>{'>'}</span>
           <span style={{ color: '#b0b0b0', fontWeight: 500 }}>Collections</span>
         </div>
-        {/* Divider */}
+        {/* Divider below breadcrumb */}
         <div style={{ height: 1, background: '#f3f4f6', margin: '0 0 0 0', width: '100%' }} />
-        {/* Search and actions row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 24px 0 24px' }}>
-          <input
-            type="text"
-            placeholder="Search"
-            style={{
-              flex: 1,
-              background: '#f3f4f6',
-              border: '1px solid #e5e7eb',
-              borderRadius: 6,
-              fontSize: 14,
-              padding: '6px 12px',
-              color: '#6b7280',
-              outline: 'none',
-              minWidth: 0,
-            }}
-          />
-          <button style={{
-            background: 'none',
-            border: 'none',
-            color: '#6366f1',
-            fontWeight: 500,
-            fontSize: 14,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 4,
-            cursor: 'pointer',
-            padding: '4px 8px',
-            borderRadius: 6,
-            transition: 'background 0.15s',
-          }}>
-            <span style={{ fontSize: 18, lineHeight: 1, marginRight: 2 }}>+</span> New
-          </button>
-          <span style={{ flex: 'none', display: 'flex', alignItems: 'center', cursor: 'pointer', color: '#b0b0b0', padding: 4, borderRadius: 6, transition: 'background 0.15s' }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
-          </span>
-          <span style={{ flex: 'none', display: 'flex', alignItems: 'center', cursor: 'pointer', color: '#b0b0b0', padding: 4, borderRadius: 6, transition: 'background 0.15s' }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M4 21h16"/></svg>
+        {/* New Search row */}
+        <div style={{ fontSize: 13, color: '#b0b0b0', padding: '8px 36px 8px 36px', fontWeight: 700, textAlign: 'left' }}>
+          Search
+        </div>
+        {/* Divider between Search and New Tab row */}
+        <div style={{ height: 1, background: '#f3f4f6', margin: '0 0 0 0', width: '100%' }} />
+        {/* New Tab and Icons row */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 36px 4px 36px', minHeight: 28 }}>
+          <span style={{ fontSize: 13, color: '#b0b0b0', fontWeight: 700, cursor: 'pointer', userSelect: 'none' }}>+ New Tab</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            {/* Circle Question Mark Icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b0b0b0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', cursor: 'pointer' }}><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            {/* Folder Down Icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b0b0b0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', cursor: 'pointer' }}><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><path d="M12 10v6"/><path d="m15 13-3 3-3-3"/></svg>
           </span>
         </div>
-        {/* Empty state */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 320 }}>
-          {/* Illustration */}
-          <div style={{ marginBottom: 12 }}>
-            <svg width="80" height="56" viewBox="0 0 80 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="8" y="20" width="64" height="28" rx="4" fill="#F3F4F6" />
-              <rect x="16" y="28" width="48" height="12" rx="2" fill="#E5E7EB" />
-              <rect x="24" y="36" width="32" height="4" rx="2" fill="#F3F4F6" />
-            </svg>
+        {/* Divider */}
+        <div style={{ height: 1, background: '#f3f4f6', margin: '0 0 0 0', width: '100%' }} />
+        {/* Moved Empty State (now just below the new tab row) */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '12px 0 6px 0' }}>
+          {/* Illustration replaced with external image */}
+          <div style={{ marginBottom: 8 }}>
+            <img src="https://hoppscotch.io/images/states/light/pack.svg" alt="Empty Collection" style={{ width: 70, height: 50, objectFit: 'contain', display: 'block' }} />
           </div>
-          <div style={{ color: '#b0b0b0', fontWeight: 500, fontSize: 16, marginBottom: 6 }}>Collections are empty</div>
-          <div style={{ color: '#b0b0b0', fontWeight: 400, fontSize: 14, marginBottom: 18 }}>Import or create a collection</div>
+          <div style={{ color: '#b0b0b0', fontWeight: 500, fontSize: 12, marginBottom: 4 }}>Collections are empty</div>
+          <div style={{ color: '#b0b0b0', fontWeight: 400, fontSize: 11, marginBottom: 10 }}>Import or create a collection</div>
           <button style={{
             background: '#6366f1',
             color: '#fff',
             fontWeight: 600,
-            fontSize: 15,
+            fontSize: 12,
             border: 'none',
-            borderRadius: 8,
-            padding: '8px 32px',
-            marginBottom: 10,
+            borderRadius: 6,
+            padding: '5px 18px',
+            marginBottom: 6,
             cursor: 'pointer',
             boxShadow: '0 1px 2px rgba(99,102,241,0.08)',
             transition: 'background 0.15s',
@@ -215,10 +189,10 @@ export default function RightPanel({ width, setWidth, dragging, setDragging }) {
             background: '#fff',
             color: '#6366f1',
             fontWeight: 600,
-            fontSize: 15,
+            fontSize: 12,
             border: '1px solid #e5e7eb',
-            borderRadius: 8,
-            padding: '8px 32px',
+            borderRadius: 6,
+            padding: '5px 18px',
             cursor: 'pointer',
             boxShadow: '0 1px 2px rgba(99,102,241,0.08)',
             transition: 'background 0.15s',

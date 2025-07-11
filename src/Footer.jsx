@@ -10,6 +10,7 @@ export default function Footer() {
   const [hoveredMenuItem, setHoveredMenuItem] = useState(null); // For help menu item hover
   const [showHorizontalTooltip, setShowHorizontalTooltip] = useState(false);
   const [showCollapseTooltip, setShowCollapseTooltip] = useState(false);
+  const [showShortcutsPanel, setShowShortcutsPanel] = useState(false);
 
   // Menu items for the Help & feedback dropdown
   const helpMenuItems = [
@@ -41,6 +42,60 @@ export default function Footer() {
     { key: 'terms', icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     ), label: "Terms and privacy" },
+  ];
+
+  // Shortcuts data structure for the shortcuts panel
+  const shortcutSections = [
+    {
+      title: 'General',
+      items: [
+        { label: 'Help menu', keys: ['?'] },
+        { label: 'Search & command menu', keys: ['Ctrl', 'K'] },
+        { label: 'Keyboard shortcuts', keys: ['Ctrl', '/'] },
+        { label: 'Close current menu', keys: ['ESC'] },
+      ],
+    },
+    {
+      title: 'Request',
+      items: [
+        { label: 'Send Request', keys: ['Ctrl', '↵'] },
+        { label: 'Save to Collections', keys: ['Ctrl', 'S'] },
+        { label: 'Share Request', keys: ['Ctrl', 'U'] },
+        { label: 'Reset Request', keys: ['Ctrl', 'I'] },
+        { label: 'Select Next method', keys: ['Alt', '↑'] },
+        { label: 'Select Previous method', keys: ['Alt', '↓'] },
+        { label: 'Select GET method', keys: ['Alt', 'G'] },
+        { label: 'Select HEAD method', keys: ['Alt', 'H'] },
+        { label: 'Select POST method', keys: ['Alt', 'P'] },
+        { label: 'Select PUT method', keys: ['Alt', 'U'] },
+        { label: 'Select DELETE method', keys: ['Alt', 'X'] },
+      ],
+    },
+    {
+      title: 'Response',
+      items: [
+        { label: 'Download response as file', keys: ['Ctrl', 'J'] },
+        { label: 'Copy response to clipboard', keys: ['Ctrl', '.'] },
+      ],
+    },
+    {
+      title: 'Navigation',
+      items: [
+        { label: 'Go back to previous page', keys: ['Ctrl', '←'] },
+        { label: 'Go forward to next page', keys: ['Ctrl', '→'] },
+        { label: 'Go to REST page', keys: ['Alt', 'R'] },
+        { label: 'Go to GraphQL page', keys: ['Alt', 'Q'] },
+        { label: 'Go to Realtime page', keys: ['Alt', 'W'] },
+        { label: 'Go to Settings page', keys: ['Alt', 'S'] },
+        { label: 'Go to Profile page', keys: ['Alt', 'M'] },
+      ],
+    },
+    {
+      title: 'Miscellaneous',
+      items: [
+        { label: 'Invite people to Hoppscotch', keys: ['Ctrl', 'M'] },
+      ],
+    },
   ];
 
   return (
@@ -251,7 +306,9 @@ export default function Footer() {
         {/* Lightning bolt icon */}
         <span style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', position: 'relative' }}
           onMouseEnter={() => { setHoveredIcon('zap'); setShowShortcutsTooltip(true); }}
-          onMouseLeave={() => { setHoveredIcon(null); setShowShortcutsTooltip(false); }}>
+          onMouseLeave={() => { setHoveredIcon(null); setShowShortcutsTooltip(false); }}
+          onClick={() => setShowShortcutsPanel(true)}
+        >
           {/* Shortcuts tooltip */}
           {showShortcutsTooltip && (
             <div style={{
@@ -408,6 +465,77 @@ export default function Footer() {
            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={hoveredIcon === 'panel-close' ? '#23272e' : '#6b7280'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m8 9 3 3-3 3"/></svg>
         </span>
       </div>
+      {/* Shortcuts Panel Overlay and Panel */}
+      {showShortcutsPanel && (
+        <>
+          {/* Overlay */}
+          <div
+            onClick={() => setShowShortcutsPanel(false)}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              background: 'rgba(255,255,255,0.5)',
+              backdropFilter: 'blur(4px)',
+              zIndex: 4000,
+            }}
+          />
+          {/* Shortcuts Panel */}
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              width: 420,
+              height: '100vh',
+              background: '#fff',
+              boxShadow: '-4px 0 24px 0 rgba(0,0,0,0.13)',
+              zIndex: 4001,
+              overflowY: 'auto',
+              padding: 0,
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 24px 8px 24px', borderBottom: '1px solid #f3f4f6' }}>
+              <span style={{ fontWeight: 700, fontSize: 24 }}>Shortcuts</span>
+              <span style={{ cursor: 'pointer', fontSize: 24, color: '#6b7280', marginLeft: 16 }} onClick={() => setShowShortcutsPanel(false)}>&times;</span>
+            </div>
+            {/* Search bar */}
+            <div style={{ padding: '16px 24px 0 24px' }}>
+              <input type="text" placeholder="Search" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #e5e7eb', fontSize: 15, color: '#6b7280', background: '#fff', boxSizing: 'border-box' }} />
+            </div>
+            {/* Shortcuts content (scrollable) */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '0 24px 24px 24px' }}>
+              {shortcutSections.map((section, i) => (
+                <div key={section.title}>
+                  {i !== 0 && (
+                    <div style={{ borderTop: '1px solid #f3f4f6', margin: '20px 0 0 0' }} />
+                  )}
+                  <div style={{ marginTop: i === 0 ? 18 : 10, marginBottom: 8, fontWeight: 700, fontSize: 13, display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left' }}>
+                    <span style={{ color: '#23272e', textAlign: 'left' }}>{section.title}</span>
+                  </div>
+                  <div style={{ marginBottom: 2 }}>
+                    {section.items.map((item, j) => (
+                      <div key={j} style={{ display: 'flex', alignItems: 'center', marginBottom: 6, minHeight: 22, textAlign: 'left' }}>
+                        <span style={{ flex: 1, color: '#23272e', fontSize: 12, textAlign: 'left' }}>{item.label}</span>
+                        <span style={{ display: 'flex', gap: 3 }}>
+                          {item.keys.map((key, k) => (
+                            <span key={k} style={{ background: '#f3f4f6', border: '1px solid #e5e7eb', borderRadius: 4, padding: '1px 6px', fontSize: 11, color: '#6b7280', fontWeight: 500, minWidth: 16, textAlign: 'center', lineHeight: '15px', userSelect: 'none' }}>{key}</span>
+                          ))}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </footer>
   );
 } 

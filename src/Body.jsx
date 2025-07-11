@@ -14,35 +14,102 @@ const HTTP_METHODS = [
   { name: "CUSTOM", color: "#6b7280" },
 ];
 
-function RequestTabsBar({ method }) {
+function RequestTabsBar({
+  tabs,
+  activeTabId,
+  setActiveTabId,
+  addTab,
+  removeTab,
+  setTabMethod,
+  setTabTitle,
+  editingTabId,
+  setEditingTabId,
+  onEnvClick,
+  envPopupOpen,
+  envBoxRef,
+  envPopupRef,
+  eyePopupOpen,
+  setEyePopupOpen,
+  eyeIconRef,
+  eyePopupRef,
+}) {
+  const inputRef = React.useRef(null);
+  React.useEffect(() => {
+    if (editingTabId && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [editingTabId]);
   return (
-    <div className={styles.tabsBar}>
-      <div className={styles.tabsBarLeft}>
-        <span className={styles.methodGet} style={{ color: HTTP_METHODS.find(m => m.name === method)?.color }}>{method}</span>
-        <span className={styles.tabTitle}>Untitled</span>
-        {/* Unsaved dot at the end of the white box, just before the + icon */}
-        <span className={styles.unsavedDot}></span>
-      </div>
-      <button className={styles.tabAdd}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-      </button>
-      {/* New right-side box with two items and a divider */}
-      <div className={styles.tabsBarRightBox}>
-        <div className={styles.envBox}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-layers-icon lucide-layers"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
-          <span className={styles.envText}>Select environment
-            <span style={{ marginLeft: 8 }}></span>
+    <div style={{ display: 'flex', alignItems: 'flex-end', borderBottom: '1.5px solid #f3f4f6', background: '#fafbfc', minHeight: 44, marginBottom: 12 }}>
+      {tabs.map((tab, idx) => (
+        <div
+          key={tab.id}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            background: activeTabId === tab.id ? '#fff' : '#fafbfc',
+            borderTopLeftRadius: 6,
+            borderTopRightRadius: 6,
+            border: activeTabId === tab.id ? '1.5px solid #e5e7eb' : '1.5px solid transparent',
+            borderBottom: activeTabId === tab.id ? '2.5px solid #2563eb' : '1.5px solid transparent',
+            marginRight: 2,
+            minWidth: 120,
+            minHeight: 44,
+            padding: '0 18px 0 10px',
+            position: 'relative',
+            fontWeight: activeTabId === tab.id ? 700 : 500,
+            color: activeTabId === tab.id ? '#18181b' : '#6b7280',
+            cursor: 'pointer',
+            boxShadow: activeTabId === tab.id ? '0 2px 8px rgba(0,0,0,0.03)' : 'none',
+          }}
+          onClick={() => setActiveTabId(tab.id)}
+        >
+          <span style={{ color: '#22c55e', fontWeight: 700, fontSize: 13, marginRight: 6 }}>{tab.method}</span>
+          {editingTabId === tab.id && activeTabId === tab.id ? (
+            <input
+              ref={inputRef}
+              value={tab.title}
+              onChange={e => setTabTitle(tab.id, e.target.value)}
+              onBlur={() => setEditingTabId(null)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') setEditingTabId(null);
+              }}
+              style={{ fontWeight: 700, fontSize: 15, border: '1px solid #e5e7eb', borderRadius: 4, padding: '2px 6px', minWidth: 60 }}
+            />
+          ) : (
+            <span
+              style={{ fontWeight: activeTabId === tab.id ? 700 : 500, fontSize: 15 }}
+              onClick={e => {
+                e.stopPropagation();
+                if (activeTabId === tab.id) setEditingTabId(tab.id);
+              }}
+            >
+              {tab.title}
           </span>
-          <span className={styles.envChevron}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          )}
+          {tabs.length > 1 && (
+            <span
+              style={{ marginLeft: 12, color: '#a1a1aa', fontSize: 18, cursor: 'pointer' }}
+              onClick={e => {
+                e.stopPropagation();
+                removeTab(tab.id);
+              }}
+            >
+              ×
           </span>
+          )}
         </div>
-        <div className={styles.tabsBarDivider} />
-        <div className={styles.eyeBox}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-icon lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+      ))}
+      {/* Plus icon */}
+      <div
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, cursor: 'pointer', background: '#fafbfc', borderRadius: 6, marginLeft: 2, fontSize: 22, color: '#222', border: '1.5px solid #f3f4f6',
+        }}
+        onClick={addTab}
+      >
+        +
         </div>
-      </div>
-      <div className={styles.tabsBarActiveLine} />
     </div>
   );
 }
@@ -697,10 +764,242 @@ export default function RequestPanel() {
   const [activeTab, setActiveTab] = useState('Parameters');
   const [contentType, setContentType] = useState('None');
   const [override, setOverride] = useState(false);
+  const [envPopupOpen, setEnvPopupOpen] = useState(false);
+  const envBoxRef = React.useRef(null);
+  const envPopupRef = React.useRef(null);
+  // Eye popup state and refs
+  const [eyePopupOpen, setEyePopupOpen] = useState(false);
+  const eyeIconRef = React.useRef(null);
+  const eyePopupRef = React.useRef(null);
+  // Tab system state
+  const [tabs, setTabs] = useState([
+    { id: 1, method: 'GET', title: 'Untitled' },
+  ]);
+  const [activeTabId, setActiveTabId] = useState(1);
+  const [editingTabId, setEditingTabId] = useState(null);
+  const [envHover, setEnvHover] = useState(false);
+
+  // Close popups when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        envBoxRef.current &&
+        !envBoxRef.current.contains(event.target) &&
+        envPopupRef.current &&
+        !envPopupRef.current.contains(event.target)
+      ) {
+        setEnvPopupOpen(false);
+      }
+      if (
+        eyeIconRef.current &&
+        !eyeIconRef.current.contains(event.target) &&
+        eyePopupRef.current &&
+        !eyePopupRef.current.contains(event.target)
+      ) {
+        setEyePopupOpen(false);
+      }
+    }
+    if (envPopupOpen || eyePopupOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [envPopupOpen, eyePopupOpen]);
+
+  // Position the eye popup below the eye icon
+  React.useLayoutEffect(() => {
+    if (eyePopupOpen && eyeIconRef.current && eyePopupRef.current) {
+      const popup = eyePopupRef.current;
+      const iconBox = eyeIconRef.current.getBoundingClientRect();
+      const popupWidth = 370;
+      let left = 0;
+      // Try to align right edge of popup with right edge of icon, but keep in viewport
+      left = iconBox.right - popupWidth;
+      if (left < 8) left = 8;
+      popup.style.left = `${left}px`;
+      popup.style.top = `${iconBox.bottom + 8}px`;
+    }
+  }, [eyePopupOpen]);
+
+  // Add tab
+  const addTab = () => {
+    const newId = tabs.length ? Math.max(...tabs.map(t => t.id)) + 1 : 1;
+    setTabs([...tabs, { id: newId, method: 'GET', title: 'Untitled' }]);
+    setActiveTabId(newId);
+  };
+  // Remove tab
+  const removeTab = (id) => {
+    let idx = tabs.findIndex(t => t.id === id);
+    let newTabs = tabs.filter(t => t.id !== id);
+    if (newTabs.length === 0) {
+      newTabs = [{ id: 1, method: 'GET', title: 'Untitled' }];
+      setActiveTabId(1);
+    } else if (activeTabId === id) {
+      setActiveTabId(newTabs[Math.max(0, idx - 1)].id);
+    }
+    setTabs(newTabs);
+  };
+  // Set method for active tab
+  const setTabMethod = (method) => {
+    setTabs(tabs => tabs.map(tab => tab.id === activeTabId ? { ...tab, method } : tab));
+  };
+  // Set title for a tab
+  const setTabTitle = (id, title) => {
+    setTabs(tabs => tabs.map(tab => tab.id === id ? { ...tab, title } : tab));
+  };
+
   return (
     <div className={styles.panel}>
-      <RequestTabsBar method={method} />
-      <RequestBar method={method} setMethod={setMethod} />
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fafbfc', minHeight: 44, borderBottom: '1.5px solid #f3f4f6', padding: '0 16px', position: 'relative' }}>
+        {/* Left: Tabs, etc. (existing content) */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <RequestTabsBar
+            tabs={tabs}
+            activeTabId={activeTabId}
+            setActiveTabId={setActiveTabId}
+            addTab={addTab}
+            removeTab={removeTab}
+            setTabMethod={setTabMethod}
+            setTabTitle={setTabTitle}
+            editingTabId={editingTabId}
+            setEditingTabId={setEditingTabId}
+            onEnvClick={() => setEnvPopupOpen(v => !v)}
+            envPopupOpen={envPopupOpen}
+            envBoxRef={envBoxRef}
+            envPopupRef={envPopupRef}
+            eyePopupOpen={eyePopupOpen}
+            setEyePopupOpen={setEyePopupOpen}
+            eyeIconRef={eyeIconRef}
+            eyePopupRef={eyePopupRef}
+          />
+        </div>
+        {/* Right: Environment selector and eye icon */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {/* Layers icon (small, left of Select environment) */}
+          <span style={{ display: 'flex', alignItems: 'center', marginRight: 2 }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={envHover ? '#23272e' : '#a1a1aa'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
+          </span>
+          {/* Select environment tab (no box) */}
+          <div
+            ref={envBoxRef}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: 13,
+              color: envHover ? '#23272e' : '#a1a1aa',
+              background: 'none',
+              border: 'none',
+              borderRadius: 0,
+              padding: '0 4px',
+              marginRight: 2,
+              position: 'relative',
+              boxShadow: 'none',
+              zIndex: envPopupOpen ? 3002 : 'auto',
+              transition: 'color 0.15s',
+            }}
+            onClick={() => setEnvPopupOpen(v => !v)}
+            onMouseEnter={() => setEnvHover(true)}
+            onMouseLeave={() => setEnvHover(false)}
+          >
+            <span style={{ marginRight: 6 }}>Select environment</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          {/* Environment popup */}
+          {envPopupOpen && (
+            <div
+              ref={envPopupRef}
+              style={{
+                position: 'absolute',
+                top: 44,
+                right: 60,
+                minWidth: 370,
+                background: '#fff',
+                border: '1px solid #e5e7eb',
+                borderRadius: 10,
+                boxShadow: '0 4px 24px 0 rgba(0,0,0,0.13)',
+                zIndex: 3002,
+                padding: '0',
+              }}
+            >
+              {/* Search bar */}
+              <div style={{ padding: '16px 16px 0 16px', borderBottom: '1px solid #f3f4f6' }}>
+                <input type="text" placeholder="Search" style={{ width: '100%', padding: '7px 12px', borderRadius: 8, border: '1px solid #e5e7eb', fontSize: 14, color: '#6b7280', background: '#fff', boxSizing: 'border-box' }} />
+              </div>
+              {/* No environment row */}
+              <div style={{ display: 'flex', alignItems: 'center', fontSize: 15, color: '#6b7280', fontWeight: 500, padding: '14px 16px 0 16px', cursor: 'pointer', justifyContent: 'space-between' }}>
+                <span>No environment</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              {/* Tabs */}
+              <div style={{ display: 'flex', borderBottom: '1.5px solid #f3f4f6', marginTop: 16 }}>
+                <div style={{ flex: 1, textAlign: 'center', fontWeight: 700, fontSize: 12, padding: '10px 0', borderBottom: '2.5px solid #23272e', color: '#23272e', background: '#f8fafc', cursor: 'pointer', borderTopLeftRadius: 8 }}>Personal Environments</div>
+                <div style={{ flex: 1, textAlign: 'center', fontWeight: 700, fontSize: 12, padding: '10px 0', borderBottom: '2.5px solid transparent', color: '#6b7280', background: '#fff', cursor: 'pointer', borderTopRightRadius: 8 }}>Workspace Environments</div>
+              </div>
+              {/* Empty state */}
+              <div style={{ padding: '32px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <img src="https://hoppscotch.io/images/states/light/blockchain.svg" alt="Environments empty" width="56" height="56" style={{ display: 'block' }} />
+                <div style={{ color: '#a1a1aa', fontWeight: 500, fontSize: 12, marginTop: 16 }}>Environments are empty</div>
+              </div>
+            </div>
+          )}
+          {/* Eye icon (replace with new SVG) */}
+          <span
+            ref={eyeIconRef}
+            style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', color: '#a1a1aa', fontSize: 18, padding: 4, borderRadius: 6, transition: 'background 0.15s' }}
+            onClick={() => setEyePopupOpen(v => !v)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+          </span>
+          {/* Eye popup */}
+          {eyePopupOpen && (
+            <div
+              ref={eyePopupRef}
+              style={{
+                position: 'absolute',
+                top: 44,
+                right: 40,
+                minWidth: 320,
+                background: '#fff',
+                border: '1px solid #e5e7eb',
+                borderRadius: 10,
+                boxShadow: '0 4px 24px 0 rgba(0,0,0,0.13)',
+                zIndex: 3002,
+                padding: '0',
+              }}
+            >
+              {/* Global variables section */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px 8px 18px', borderBottom: '1px solid #f3f4f6', background: '#f8fafc', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
+                <span style={{ fontWeight: 700, fontSize: 13, color: '#23272e' }}>Global variables</span>
+                <span style={{ cursor: 'pointer', color: '#a1a1aa', fontSize: 18 }} title="Edit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19.5 3 21l1.5-4L16.5 3.5z"/></svg></span>
+              </div>
+              {/* Table header for variables */}
+              <div style={{ display: 'flex', alignItems: 'center', fontSize: 13, color: '#a1a1aa', fontWeight: 600, padding: '8px 18px 0 18px' }}>
+                <div style={{ flex: 2 }}>Name</div>
+                <div style={{ flex: 2 }}>Initial value</div>
+                <div style={{ flex: 2 }}>Current value</div>
+              </div>
+              {/* No variables row */}
+              <div style={{ fontSize: 13, color: '#b0b0b0', fontWeight: 500, padding: '12px 18px 16px 18px' }}>No variables</div>
+              {/* Environment variables section */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px 8px 18px', borderBottom: '1px solid #f3f4f6', background: '#f8fafc' }}>
+                <span style={{ fontWeight: 700, fontSize: 13, color: '#23272e' }}>Environment variables</span>
+                <span style={{ cursor: 'pointer', color: '#a1a1aa', fontSize: 18 }} title="Edit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19.5 3 21l1.5-4L16.5 3.5z"/></svg></span>
+              </div>
+              {/* No active environment row */}
+              <div style={{ fontSize: 13, color: '#b0b0b0', fontWeight: 500, padding: '12px 18px 16px 18px' }}>No active environment</div>
+            </div>
+          )}
+        </div>
+      </div>
+      {/* Add white space between first and second row */}
+      <div style={{ height: 18, background: '#fff' }} />
+      {/* Pass setTabMethod to RequestBar so it can update the active tab's method */}
+      <RequestBar method={tabs.find(t => t.id === activeTabId)?.method || 'GET'} setMethod={setTabMethod} />
       <div className={styles.requestTabs}>
         <div style={{ display: 'flex', flex: 1 }}>
           {['Parameters', 'Body', 'Headers', 'Authorization', 'Pre-request Script', 'Post-request Script'].map(tab => (
